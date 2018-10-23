@@ -7,8 +7,16 @@ import bitcamp.java106.pms.domain.Team;
 
 
 public class App {
+    // 클래스 변수 = 스태틱 변수
+    // => 클래스 안에서 어디에서나 사용할 수 있는 변수이다.
+    static Scanner keyScan = new Scanner(System.in);
+
+    static String[] prompt() {
+        System.out.print("명령> ");
+        return keyScan.nextLine().toLowerCase().split(" ");
+    }
+    
     public static void main(String[] args) {
-        Scanner keyScan = new Scanner(System.in);
         
         Team[] teams = new Team[100];
         int teamIndex = 0;
@@ -17,8 +25,9 @@ public class App {
         int memberIndex = 0;
         
         while (true) {
-            System.out.print("명령> ");
-            String[] arr = keyScan.nextLine().toLowerCase().split(" ");
+            
+            String[] arr = prompt();
+            
             String menu = arr[0];
             String option = null;
             if (arr.length == 2) {
