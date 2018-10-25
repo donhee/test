@@ -2,7 +2,6 @@ package bitcamp.java106.pms.controller;
 
 import java.util.Scanner;
 
-import bitcamp.java106.pms.dao.MemberDao;
 import bitcamp.java106.pms.domain.Member;
 import bitcamp.java106.pms.util.Console;
 
@@ -10,7 +9,9 @@ public class MemberController {
     // 이 클래스를 사용하기 전에 App 클래스에서 준비한 Scanner 객체를
     // keyScan 변수에 저장하라!
     Scanner keyScan;
-    MemberDao memberDao = new MemberDao();
+    
+    Member[] members = new Member[100];
+    int memberIndex = 0;
     
     public MemberController(Scanner scanner) {
         this.keyScan = scanner;
@@ -32,6 +33,16 @@ public class MemberController {
         }
     }
     
+    int getMemberIndex(String id) {
+        for (int i = 0; i < this.memberIndex; i++) {
+            if (this.members[i] == null) continue;
+            if (id.equals(this.members[i].id.toLowerCase())) {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
     void onMemberAdd() {
         System.out.println("[회원 정보 입력]");
         
@@ -45,17 +56,16 @@ public class MemberController {
         System.out.print("암호? ");
         member.password = keyScan.nextLine();
         
-        this.memberDao.insert(member);
+        this.members[this.memberIndex++] = member;
     }
     
     void onMemberList() {
         System.out.println("[회원 리스트]");
         
-        Member[] list = memberDao.list();
-        for (int i = 0; i < list.length;  i++) {
-            if (list[i] == null) continue;
+        for (int i = 0; i < this.memberIndex;  i++) {
+            if (this.members[i] == null) continue;
             System.out.printf("%s, %s, %s\n",
-                    list[i].id, list[i].email, list[i].password);
+                    this.members[i].id, this.members[i].email, this.members[i].password);
         }
     }
     
@@ -67,11 +77,12 @@ public class MemberController {
             return;
         }
         
-        Member member = memberDao.get(id);
+        int i = getMemberIndex(id);
         
-        if (member == null) {
+        if (i == -1) {
             System.out.println("해당 회원이 없습니다.");
         } else {
+            Member member = this.members[i];
             System.out.printf("아이디: %s\n", member.id);
             System.out.printf("이메일: %s\n", member.email);
             System.out.printf("암호: %s\n", member.password);
@@ -85,22 +96,21 @@ public class MemberController {
             return;
         }
         
-        Member member = memberDao.get(id);
+        int i = getMemberIndex(id);
         
-        if (member == null) {
+        if (i == -1) {
             System.out.println("해당 아이디의 회원이 없습니다.");
         } else {
+            Member member = this.members[i];
             Member updateMember = new Member();
-            System.out.printf("아이디 : %s\n", member.id);
-            updateMember.id = member.id;
+            System.out.printf("아이디(%s)? ", member.id);
+            updateMember.id = keyScan.nextLine();
             System.out.printf("이메일(%s)? ", member.email);
             updateMember.email = keyScan.nextLine();
             System.out.printf("암호(%s)? ", member.password);
             updateMember.password = keyScan.nextLine();
             
-            //this.members[i] = updateMember;
-            memberDao.update(updateMember);
-            
+            this.members[i] = updateMember;
             System.out.println("변경하였습니다.");
         }
     }
@@ -112,15 +122,13 @@ public class MemberController {
             return;
         }
         
-        //int i = getMemberIndex(id);
-        Member member = memberDao.get(id);
+        int i = getMemberIndex(id);
         
-        if (member == null) {
+        if (i == -1) {
             System.out.println("해당 아이디의 회원이 없습니다.");
         } else {
             if (Console.confirm("정말 삭제하시겠습니까?")) {
-                //this.members[i] = null;
-                memberDao.delete(member);
+                this.members[i] = null;
                 System.out.println("삭제하였습니다.");
             }
         }

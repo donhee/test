@@ -3,7 +3,6 @@ package bitcamp.java106.pms.controller;
 import java.sql.Date;
 import java.util.Scanner;
 
-import bitcamp.java106.pms.dao.TeamDao;
 import bitcamp.java106.pms.domain.Team;
 import bitcamp.java106.pms.util.Console;
 
@@ -12,7 +11,8 @@ public class TeamController {
     // keyScan 변수에 저장하라!
     Scanner keyScan;
     
-    TeamDao teamDao = new TeamDao();
+    Team[] teams = new Team[100];
+    int teamIndex = 0;
     
     public TeamController(Scanner scanner) {
         this.keyScan = scanner;
@@ -32,6 +32,17 @@ public class TeamController {
         }  else {
             System.out.println("명령어가 올바르지 않습니다.");
         }
+    }
+    
+    
+    int getTeamIndex(String name) {
+        for (int i = 0; i < teamIndex; i++) {
+            if (this.teams[i] == null) continue;
+            if (name.equals(this.teams[i].name.toLowerCase())) {
+                return i;
+            }
+        }
+        return -1;
     }
     
     void onTeamAdd() {
@@ -55,19 +66,17 @@ public class TeamController {
         System.out.print("종료일? ");
         team.endDate = Date.valueOf(this.keyScan.nextLine());
         
-        teamDao.insert(team);
+        this.teams[this.teamIndex++] = team;
     }
     
     void onTeamList() {
         System.out.println("[팀 목록]");
         
-        Team[] list = teamDao.list();
-        
-        for (int i = 0; i < list.length;  i++) {
-            if (list[i] == null) continue;
+        for (int i = 0; i < teamIndex;  i++) {
+            if (this.teams[i] == null) continue;
             System.out.printf("%s, %d명, %s ~ %s\n",
-                    list[i].name, list[i].maxQty, 
-                    list[i].startDate, list[i].endDate);
+                    this.teams[i].name, this.teams[i].maxQty, 
+                    this.teams[i].startDate, this.teams[i].endDate);
         }
     }
     
@@ -80,13 +89,12 @@ public class TeamController {
             // 의미는? 즉시 메서드 실행을 멈추고 이전 위치로 돌아간다.
         }
         
-        //int i = getTeamIndex(name);
-        Team team = teamDao.get(name);
+        int i = getTeamIndex(name);
         
-        if (team == null) {
+        if (i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
-            //Team team = this.teams[i];
+            Team team = this.teams[i];
             System.out.printf("팀명: %s\n", team.name);
             System.out.printf("설명: %s\n", team.description);
             System.out.printf("최대인원: %d\n", team.maxQty);
@@ -101,17 +109,16 @@ public class TeamController {
             return;
         }
         
-        //int i = getTeamIndex(name);
-        Team team = teamDao.get(name);
+        int i = getTeamIndex(name);
         
-        if (team == null) {
+        if (i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
-            //Team team = this.teams[i];
+            Team team = this.teams[i];
             Team updateTeam = new Team();
             
-            System.out.printf("팀명 : %s\n ", team.name);
-            updateTeam.name = team.name;
+            System.out.printf("팀명(%s)? ", team.name);
+            updateTeam.name = keyScan.nextLine();
             System.out.printf("설명(%s)? ", team.description);
             updateTeam.description = keyScan.nextLine();
             System.out.printf("최대인원(%d)? ", team.maxQty);
@@ -121,8 +128,7 @@ public class TeamController {
             System.out.printf("시작일(%s)? ", team.startDate);
             updateTeam.endDate = Date.valueOf(keyScan.nextLine());
             
-            //this.teams[i] = updateTeam;
-            teamDao.update(updateTeam);
+            this.teams[i] = updateTeam;
             
             System.out.println("변경하였습니다.");
         }
@@ -135,14 +141,13 @@ public class TeamController {
             return;
         }
         
-        //int i = getTeamIndex(name);
-        Team team = teamDao.get(name);
+        int i = getTeamIndex(name);
         
-        if (team == null) {
+        if (i == -1) {
             System.out.println("해당 이름의 팀이 없습니다.");
         } else {
             if (Console.confirm("정말 삭제하시겠습니까?")) {
-                teamDao.delete(team.name);
+                this.teams[i] = null;
                 System.out.println("삭제하였습니다.");
             }
         }

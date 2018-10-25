@@ -3,7 +3,6 @@ package bitcamp.java106.pms.controller;
 import java.sql.Date;
 import java.util.Scanner;
 
-import bitcamp.java106.pms.dao.BoardDao;
 import bitcamp.java106.pms.domain.Board;
 import bitcamp.java106.pms.util.Console;
 
@@ -11,7 +10,9 @@ public class BoardController {
     // 이 클래스를 사용하기 전에 App 클래스에서 준비한 Scanner 객체를
     // keyScan 변수에 저장하라!
     Scanner keyScan;
-    BoardDao boardDao = new BoardDao();
+    
+    Board[] boards = new Board[100];
+    int boardIndex = 0;
     
     public BoardController(Scanner scanner) {
         this.keyScan = scanner;
@@ -47,18 +48,16 @@ public class BoardController {
         System.out.print("등록일? ");
         board.createDate = Date.valueOf(keyScan.nextLine());
         
-        boardDao.insert(board);
+        this.boards[this.boardIndex++] = board;
     }
     
     void onBoardList() {
         System.out.println("[게시물 목록]");
         
-        Board[] list = boardDao.list();
-        
-        for (int i = 0; i < list.length;  i++) {
-            if (list[i] == null) continue;
+        for (int i = 0; i < this.boardIndex;  i++) {
+            if (this.boards[i] == null) continue;
             System.out.printf("%d, %s, %s\n",
-                    i, list[i].title, list[i].createDate);
+                    i, this.boards[i].title, this.boards[i].createDate);
         }
     }
     
@@ -70,11 +69,12 @@ public class BoardController {
             return;
         }
         
-        Board board = boardDao.get(Integer.parseInt(option));
+        int i = Integer.parseInt(option);
         
-        if (board == null) {
+        if (i < 0 || i >= this.boardIndex) {
             System.out.println("해당 게시물 번호가 없습니다.");
         } else {
+            Board board = this.boards[i];
             System.out.printf("제목: %s\n", board.title);
             System.out.printf("내용: %s\n", board.content);
             System.out.printf("시작일: %s\n", board.createDate);
@@ -88,11 +88,12 @@ public class BoardController {
             return;
         }
         
-        Board board = boardDao.get(Integer.parseInt(option));
+        int i = Integer.parseInt(option);
         
-        if (board == null) {
+        if (i < 0 || i >= this.boardIndex) {
             System.out.println("해당 게시물 번호가 없습니다.");
         } else {
+            Board board = this.boards[i];
             Board updateBoard = new Board();
             System.out.printf("제목(%s)? ", board.title);
             updateBoard.title = keyScan.nextLine();
@@ -100,13 +101,12 @@ public class BoardController {
             updateBoard.content = keyScan.nextLine();
             System.out.printf("시작일(%s)? ", board.createDate);
             updateBoard.createDate = Date.valueOf(keyScan.nextLine());
-            updateBoard.no = board.no;
-            //this.boards[i] = updateBoard;
-            boardDao.update(updateBoard);
+            
+            this.boards[i] = updateBoard;
             System.out.println("변경하였습니다.");
         }
     }
-    
+
     void onBoardDelete(String option) {
         System.out.println("[게시물 삭제]");
         if (option == null) {
@@ -115,17 +115,15 @@ public class BoardController {
         }
         
         int i = Integer.parseInt(option);
-        Board board = boardDao.get(i);
         
-        if (board == null) {
+        if (i == -1) {
             System.out.println("해당 게시물이 없습니다.");
         } else {
             if (Console.confirm("정말 삭제하시겠습니까?")) {
-                boardDao.delete(i);
+                this.boards[i] = null;
                 System.out.println("삭제하였습니다.");
             }
         }
     }
-    
     
 }
