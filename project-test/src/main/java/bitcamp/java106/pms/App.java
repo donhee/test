@@ -32,8 +32,11 @@ public class App {
         
         // 각각의 데이터 저장에 대해 예외 처리를 분리해야 한다.
         // 그래야만 예외가 발생하더라도 다른 데이터 저장은 정상적으로 수행할 것이다.
-        try {boardDao.save();} 
-        catch (Exception e) { System.out.println("게시물 데이터 저장 중 오류 발생!");}
+        try {
+            boardDao.save();
+        } catch (Exception e) { 
+            System.out.println("게시물 데이터 저장 중 오류 발생!");
+        }
         
         try {classroomDao.save();} 
         catch (Exception e) { System.out.println("수업 데이터 저장 중 오류 발생!");}
