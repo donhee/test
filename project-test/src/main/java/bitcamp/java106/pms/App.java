@@ -30,7 +30,7 @@ public class App {
         TeamDao teamDao = (TeamDao) iocContainer.getBean(TeamDao.class);
         TeamMemberDao teamMemberDao = (TeamMemberDao) iocContainer.getBean(TeamMemberDao.class);
         
-        // 각각의 데이터 저장에 대해 예외 처리를 분리해야 한다.
+        // 각각의 데이터 저장에 대해 예외 처리를 분리해야 한다. 
         // 그래야만 예외가 발생하더라도 다른 데이터 저장은 정상적으로 수행할 것이다.
         try {
             boardDao.save();
