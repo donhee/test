@@ -12,8 +12,8 @@ import bitcamp.java106.pms.annotation.Component;
 import bitcamp.java106.pms.domain.Classroom;
 
 @Component
-public class ClassroomDao extends AbstractDao<Classroom>{
-
+public class ClassroomDao extends AbstractDao<Classroom> {
+    
     public ClassroomDao() throws Exception {
         load();
     }
@@ -52,7 +52,6 @@ public class ClassroomDao extends AbstractDao<Classroom>{
         out.close();
     }
     
-    @Override
     public int indexOf(Object key) {
         int classroomNo = (Integer) key;
         for (int i = 0; i < collection.size(); i++) {
@@ -62,7 +61,5 @@ public class ClassroomDao extends AbstractDao<Classroom>{
         }
         return -1;
     }
-    
-    
     
 }

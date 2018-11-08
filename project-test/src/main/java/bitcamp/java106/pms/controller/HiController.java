@@ -13,14 +13,6 @@ public class HiController implements Controller {
     }
     
     public void service(String menu, String option) {
-        if (menu.equals("hi")) {
-            this.onHi(option);
-        } else {
-            System.out.println("명령어가 올바르지 않습니다.");
-        }
-    }
-
-    void onHi(String option) {
         System.out.printf("'%s'님 안녕하세요!", option);
     }
 
