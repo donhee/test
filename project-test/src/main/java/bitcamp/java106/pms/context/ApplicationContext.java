@@ -1,4 +1,4 @@
-// 미니 IoC 컨테이너
+// 미니 IoC 컨테이너 
 package bitcamp.java106.pms.context;
 
 import java.io.File;
@@ -173,3 +173,17 @@ public class ApplicationContext {
         return null;
     }
 }
+
+//ver 28 - default 생성자 추가
+//ver 24 - 타입으로 객체를 찾는 getBean() 메서드 추가
+//ver 23 - 클래스 정의
+
+
+
+
+
+
+
+
+
+

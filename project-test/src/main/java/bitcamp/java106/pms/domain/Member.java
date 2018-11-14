@@ -39,4 +39,10 @@ public class Member implements Serializable {
         return "Member [id=" + id + ", email=" + email + ", password=" + password + "]";
     }
     
+    
 }
+
+//ver 27 - java.io.Serializable 인터페이스 구현
+//ver 24 - 생성자 추가
+//ver 17 - toString() 재정의.
+//ver 16 - 캡슐화 적용. 겟터, 셋터 추가.

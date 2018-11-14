@@ -17,6 +17,7 @@ public class BoardDeleteController implements Controller {
         this.boardDao = boardDao;
     }
     
+    @Override
     public void service(ServerRequest request, ServerResponse response) {
         PrintWriter out = response.getWriter();
         int no = Integer.parseInt(request.getParameter("no"));
@@ -30,5 +31,8 @@ public class BoardDeleteController implements Controller {
             out.println("삭제하였습니다.");
         }
     }
-
+    
 }
+
+//ver 28 - 네트워크 버전으로 변경
+//ver 26 - BoardController에서 delete() 메서드를 추출하여 클래스로 정의. 

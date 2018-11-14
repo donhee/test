@@ -58,5 +58,9 @@ public class Classroom implements Serializable {
     public void setRoom(String room) {
         this.room = room;
     }
-
+    
+    
 }
+
+//ver 27 - java.io.Serializable 인터페이스 구현
+//ver 24 - setNo() 변경 

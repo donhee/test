@@ -29,5 +29,7 @@ public class BoardListController implements Controller {
                 board.getNo(), board.getTitle(), board.getCreatedDate());
         }
     }
-
 }
+
+//ver 28 - 네트워크 버전으로 변경
+//ver 26 - BoardController에서 list() 메서드를 추출하여 클래스로 정의. 

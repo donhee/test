@@ -11,7 +11,7 @@ public class Task implements Serializable {
     public static final int COMPLETE = 9;
     
     public static int count = 1;
-    
+
     private int no;
     private String title;
     private Date startDate;
@@ -37,29 +37,11 @@ public class Task implements Serializable {
         return no;
     }
     public void setNo(int no) {
-        // 외부에서 입력 받은 번호가 count 보다 클 때는 count 값을 증가시켜야 한다.
+        // 외부에서 입력 받은 번호가 count 보다 클 때는 count의 값을 증가시켜야 한다.
         if (no >= count) {
             count = no + 1;
         }
         this.no = no;
-    }
-    public String getTitle() {
-        return title;
-    }
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public Date getStartDate() {
-        return startDate;
-    }
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-    public Date getEndDate() {
-        return endDate;
-    }
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
     }
     public int getState() {
         return state;
@@ -79,11 +61,36 @@ public class Task implements Serializable {
     public void setTeam(Team team) {
         this.team = team;
     }
-    
-    @Override
-    public String toString() {
-        return "Task [no=" + no + ", title=" + title + ", startDate=" + startDate + ", endDate=" + endDate + ", state="
-                + state + ", worker=" + worker + ", team=" + team + "]";
+    public String getTitle() {
+        return title;
+    }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    public Date getStartDate() {
+        return startDate;
+    }
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    public Date getEndDate() {
+        return endDate;
+    }
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
+    @Override
+    public String toString() {
+        return "Task [title=" + title + ", startDate=" + startDate + ", endDate=" + endDate + ", state=" + state
+                + ", worker=" + worker + ", team=" + team + "]";
+    }
 }
+
+//ver 27 - java.io.Serializable 인터페이스 구현
+//ver 24 - setNo() 변경
+//ver 17 - 사용자 정의 데이터 타입 생성
+
+
+
+

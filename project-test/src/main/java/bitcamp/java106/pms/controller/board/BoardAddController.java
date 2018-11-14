@@ -17,8 +17,7 @@ public class BoardAddController implements Controller {
     public BoardAddController(BoardDao boardDao) {
         this.boardDao = boardDao;
     }
-
-    @Override
+     
     public void service(ServerRequest request, ServerResponse response) {
         Board board = new Board();
         board.setTitle(request.getParameter("title"));
@@ -31,3 +30,6 @@ public class BoardAddController implements Controller {
     }
 
 }
+
+//ver 28 - 네트워크 버전으로 변경
+//ver 26 - BoardController에서 add() 메서드를 추출하여 클래스로 정의. 

@@ -1,3 +1,4 @@
+// Controller 규칙에 따라 메서드 작성
 package bitcamp.java106.pms.controller.board;
 
 import java.io.PrintWriter;
@@ -17,6 +18,7 @@ public class BoardViewController implements Controller {
         this.boardDao = boardDao;
     }
     
+    @Override
     public void service(ServerRequest request, ServerResponse response) {
         PrintWriter out = response.getWriter();
         int no = Integer.parseInt(request.getParameter("no"));
@@ -31,5 +33,7 @@ public class BoardViewController implements Controller {
             out.printf("등록일: %s\n", board.getCreatedDate());
         }
     }
-
 }
+
+//ver 28 - 네트워크 버전으로 변경
+//ver 26 - BoardController에서 view() 메서드를 추출하여 클래스로 정의.
